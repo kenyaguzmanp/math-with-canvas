@@ -19,6 +19,16 @@ export default class Point {
     this.cartesianPlane = cartesianPlane;
     this.text = text;
     this.style = { ...style };
+
+    if (!isEmpty(this.cartesianPlane)) {
+      const { height } = this.canvas;
+      const { yPos: originY } = this.cartesianPlane.origin;
+      this.xPosInCoords = this.xPos;
+      this.yPosInCoords =
+        this.yPos < originY
+          ? Math.abs(this.yPos - originY) + height / 2
+          : height / 2 - Math.abs(this.yPos - originY);
+    }
   }
 
   /**
@@ -27,21 +37,15 @@ export default class Point {
    */
   drawIt() {
     this.context.beginPath();
-    // this.context.arc(this.xPos, this.yPos, this.radius, 0, 2 * Math.PI);
-    // TODO: FIXING
+    // TODO refactor use correct values
     if (!isEmpty(this.cartesianPlane)) {
-      console.log("here", this.yPos);
-      const { width, height } = this.canvas;
-      const { xPos: originX, yPos: originY } = this.cartesianPlane.origin;
-      console.log("originY", originY);
-      const xPos = this.xPos;
-      const yPos =
-        this.yPos < originY
-          ? Math.abs(this.yPos - originY) + height / 2
-          : height / 2 - Math.abs(this.yPos - originY);
-
-      this.context.arc(xPos, yPos, this.radius, 0, 2 * Math.PI);
-      console.log("yPos ", yPos);
+      this.context.arc(
+        this.xPosInCoords,
+        this.yPosInCoords,
+        this.radius,
+        0,
+        2 * Math.PI
+      );
     } else {
       this.context.arc(this.xPos, this.yPos, this.radius, 0, 2 * Math.PI);
     }
@@ -73,18 +77,12 @@ export default class Point {
           ? this.yPos - originY
           : originY + this.yPos - height;
       const coordinateString = `(${xPosValue},${yPosValue})`;
-      const yPos =
-        this.yPos < originY
-          ? Math.abs(this.yPos - originY) + height / 2
-          : height / 2 - Math.abs(this.yPos - originY);
-      this.context.fillText(coordinateString, this.xPos + 10, yPos - 10);
-    }
 
-    if (this.text.showXCoordinate) {
-      const xPos = this.xPos;
-      // const yPos = height / 2 - this.yPos;
-      const coordinateString = `${xPos}`;
-      this.context.fillText(coordinateString, this.xPos + 10, this.yPos - 10);
+      this.context.fillText(
+        coordinateString,
+        this.xPosInCoords + 8,
+        this.yPosInCoords - 8
+      );
     }
 
     if (this.text.showRegularCoordinates) {

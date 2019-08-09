@@ -35,17 +35,18 @@ export const drawCoordinateSystem = ({ canvas }) => {
     canvas: canvas,
     context: context,
     cartesianPlane: cartesianPlane,
-    xPos: cartesianPlane.origin.xPos + 150,
+    xPos: cartesianPlane.origin.xPos + 50,
     yPos: cartesianPlane.origin.yPos,
     text: {
       showCoordinatesInCartesianPlane: true
-      // showXCoordinate: true
       // showRegularCoordinates: true
     },
     style: {
       fillStyle: "purple"
     }
   });
+
+  console.log("otherPoint", otherPoint, otherPoint.xCoordPos);
 
   otherPoint.drawIt();
 };
