@@ -1,4 +1,5 @@
 import Point from "../primitives-models/point-model";
+import Line from "../primitives-models/line-model";
 
 /**
  * Draw a Point in the plane based in canvas
@@ -34,7 +35,6 @@ export const drawOrigin = ({ canvas }) => {
 };
 
 export const drawLine = ({ context, line } = {}) => {
-  console.log("line: ", line);
   const { from: fromPoint, to: toPoint } = line;
   const { xPos: xPosFrom, yPos: yPosFrom } = fromPoint;
   const { xPos: xPosTo, yPos: yPosTo } = toPoint;
@@ -52,7 +52,8 @@ export const drawCoordinateSystem = ({ canvas }) => {
   // style
   context.fillStyle = "black";
 
-  const abscissaLine = {
+  const abscissaLine = new Line({
+    context: context,
     from: new Point({
       xPos: canvasWidth / 2,
       yPos: 0
@@ -61,9 +62,10 @@ export const drawCoordinateSystem = ({ canvas }) => {
       xPos: canvasWidth / 2,
       yPos: canvasHeight
     })
-  };
+  });
 
-  const ordinateLine = {
+  const ordinateLine = new Line({
+    context: context,
     from: new Point({
       xPos: 0,
       yPos: canvasHeight / 2
@@ -72,7 +74,7 @@ export const drawCoordinateSystem = ({ canvas }) => {
       xPos: canvasWidth,
       yPos: canvasHeight / 2
     })
-  };
+  });
 
   drawLine({
     context: context,
@@ -109,7 +111,8 @@ export const drawPartition = ({
   for (let countX = 1; countX <= partitionX; countX++) {
     newX = countX * deltaX;
 
-    let line = {
+    let line = new Line({
+      context: context,
       from: new Point({
         xPos: newX,
         yPos: canvasHeight / 2
@@ -118,7 +121,7 @@ export const drawPartition = ({
         xPos: newX,
         yPos: canvasHeight / 2 + 5
       })
-    };
+    });
 
     drawLine({
       context: context,
@@ -130,7 +133,8 @@ export const drawPartition = ({
   for (let countY = 1; countY <= partitionX; countY++) {
     newY = countY * deltaY;
 
-    let lineY = {
+    let lineY = new Line({
+      context: context,
       from: new Point({
         xPos: canvasWidth / 2,
         yPos: newY
@@ -139,7 +143,7 @@ export const drawPartition = ({
         xPos: canvasWidth / 2 + 5,
         yPos: newY
       })
-    };
+    });
 
     drawLine({
       context: context,
