@@ -6,4 +6,18 @@ export default class Point {
     this.radius = radius;
     this.style = { ...style };
   }
+
+  /**
+   * Draw the current Point in the plane based in canvas
+   * @param { Point } point - a point class to draw
+   */
+  drawIt() {
+    this.context.beginPath();
+    this.context.arc(this.xPos, this.yPos, this.radius, 0, 2 * Math.PI);
+    if (this.style) {
+      const { fillStyle } = this.style;
+      this.context.fillStyle = fillStyle ? fillStyle : "blue";
+    }
+    this.context.fill();
+  }
 }

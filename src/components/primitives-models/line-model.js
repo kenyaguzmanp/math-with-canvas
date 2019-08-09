@@ -1,23 +1,17 @@
 export default class Line {
-  constructor({
-    context = null,
-    from,
-    to,
-    // xPos = 0,
-    // yPos = 0,
-    // width = 10,
-    // height = 10,
-    style
-  } = {}) {
+  constructor({ context = null, from, to, style } = {}) {
     this.context = context;
     this.from = from;
     this.to = to;
-
-    // this.xPos = xPos;
-    // this.yPos = yPos;
-    // this.width = width;
-    // this.height = height;
-
     this.style = { ...style };
+  }
+  drawIt() {
+    const { xPos: xPosFrom, yPos: yPosFrom } = this.from;
+    const { xPos: xPosTo, yPos: yPosTo } = this.to;
+
+    this.context.beginPath();
+    this.context.moveTo(xPosFrom, yPosFrom);
+    this.context.lineTo(xPosTo, yPosTo);
+    this.context.stroke();
   }
 }

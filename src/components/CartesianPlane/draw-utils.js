@@ -1,51 +1,6 @@
 import Point from "../primitives-models/point-model";
 import Line from "../primitives-models/line-model";
 
-/**
- * Draw a Point in the plane based in canvas
- * @param { Point } point - a point class to draw
- */
-export const drawPoint = point => {
-  const { xPos, yPos, radius, style, context } = point;
-  context.beginPath();
-  context.arc(xPos, yPos, radius, 0, 2 * Math.PI);
-  if (style) {
-    const { fillStyle } = style;
-    context.fillStyle = fillStyle ? fillStyle : "red";
-  }
-  context.fill();
-};
-
-/**
- * Draw the origin point in the plane based in canvas
- * @param { Object } canvas - the current canvas
- */
-export const drawOrigin = ({ canvas }) => {
-  const { context, width: canvasWidth, height: canvasHeight } = canvas;
-  const origin = new Point({
-    xPos: canvasWidth / 2,
-    yPos: canvasHeight / 2,
-    style: {
-      fillStyle: "red"
-    },
-    context: context
-  });
-  console.log("Origin: ", origin);
-  drawPoint(origin);
-};
-
-export const drawLine = ({ context, line } = {}) => {
-  const { from: fromPoint, to: toPoint } = line;
-  const { xPos: xPosFrom, yPos: yPosFrom } = fromPoint;
-  const { xPos: xPosTo, yPos: yPosTo } = toPoint;
-  // context.fillRect(xPosFrom, yPosFrom, xPosTo, yPosTo);
-
-  context.beginPath();
-  context.moveTo(xPosFrom, yPosFrom);
-  context.lineTo(xPosTo, yPosTo);
-  context.stroke();
-};
-
 export const drawCoordinateSystem = ({ canvas }) => {
   const { context, width: canvasWidth, height: canvasHeight } = canvas;
 
@@ -76,19 +31,20 @@ export const drawCoordinateSystem = ({ canvas }) => {
     })
   });
 
-  drawLine({
+  abscissaLine.drawIt();
+
+  ordinateLine.drawIt();
+
+  const origin = new Point({
     context: context,
-    line: abscissaLine
+    xPos: canvasWidth / 2,
+    yPos: canvasHeight / 2,
+    style: {
+      fillStyle: "red"
+    }
   });
 
-  drawLine({
-    context: context,
-    line: ordinateLine
-  });
-
-  drawOrigin({
-    canvas: canvas
-  });
+  origin.drawIt();
 };
 
 export const drawPartition = ({
@@ -123,10 +79,7 @@ export const drawPartition = ({
       })
     });
 
-    drawLine({
-      context: context,
-      line
-    });
+    line.drawIt();
   }
 
   // Partition in Y
@@ -145,9 +98,6 @@ export const drawPartition = ({
       })
     });
 
-    drawLine({
-      context: context,
-      line: lineY
-    });
+    lineY.drawIt();
   }
 };

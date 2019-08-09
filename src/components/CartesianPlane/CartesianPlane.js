@@ -25,9 +25,6 @@ export default class CartesianPlane extends Component {
       width: null,
       height: null
     };
-    // this.context = null;
-    // this.canvasWidth = null;
-    // this.canvasHeight = null;
   }
 
   componentDidMount = () => {
